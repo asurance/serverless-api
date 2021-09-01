@@ -1,10 +1,12 @@
 {
-  "name": "toolbox-api",
+  "name": "serverless-api",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "private": true,
   "scripts": {
-    "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts"
+    "start": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts && node dist/index.js",
+    "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts",
+    "build:all": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts --env BUILD_API=all"
   },
   "dependencies": {
     "@types/node": "^16.7.8",
