@@ -1,7 +1,7 @@
 import { Db, MongoClient } from 'mongodb'
 import { ParseError } from './common'
-import { APIResult } from './interface'
-import config from '../config.json'
+import { APIResult } from './type'
+import { url } from '../config.json'
 
 export async function useDatabase<Data>(
   name: string,
@@ -9,8 +9,8 @@ export async function useDatabase<Data>(
 ): Promise<APIResult<Data>> {
   let client: MongoClient | null = null
   try {
-    client = await MongoClient.connect(config.url)
-    console.log('Connect successfully', config.url)
+    client = await MongoClient.connect(url)
+    console.log('Connect successfully', url)
     const data = await callback(client.db(name))
     return {
       success: true,

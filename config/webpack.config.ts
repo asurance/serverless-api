@@ -1,4 +1,4 @@
-import { basename, join, resolve } from 'path'
+import { basename, dirname, join, resolve } from 'path'
 import { Configuration, EntryObject } from 'webpack'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import { readdirSync, statSync } from 'fs'
@@ -8,15 +8,14 @@ const apiPath = resolve(__dirname, '../src/api')
 
 function DeepSet(entry: EntryObject, root: string, cur: string) {
   const curPath = resolve(root, cur)
-  const files = readdirSync(curPath)
-  for (const file of files) {
-    const filePath = resolve(curPath, file)
-    const stat = statSync(filePath)
-    if (stat.isDirectory()) {
+  const stat = statSync(curPath)
+  if (stat.isDirectory()) {
+    const files = readdirSync(curPath)
+    for (const file of files) {
       DeepSet(entry, root, join(cur, file))
-    } else {
-      entry[join(cur, basename(file, '.ts'))] = resolve(curPath, file)
     }
+  } else {
+    entry[join(dirname(cur), basename(cur, '.ts'))] = curPath
   }
 }
 
@@ -61,6 +60,7 @@ export default function (env: Record<string, unknown>): Configuration {
     output: {
       filename: '[name].js',
       path: resolve(__dirname, '../dist'),
+      libraryTarget: 'commonjs2',
     },
   } as Configuration
   return config
