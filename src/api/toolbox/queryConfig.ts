@@ -1,11 +1,25 @@
 import { APIResult } from '../../type'
 import { useDatabase } from '../../useDataBase'
-import { Tool } from './type'
+import { NumberConfig, Tool } from './type'
 
-export async function main(): Promise<APIResult<Tool[]>> {
+type Output = {
+  updateTime: number
+  tools: Tool[]
+}
+
+export async function main(): Promise<APIResult<Output>> {
   return useDatabase('toolbox', async (db) => {
-    const documents = await db.collection<Tool>('config').find().toArray()
-    console.log('Query successfully', documents)
-    return documents
+    const updateTime = await db
+      .collection<NumberConfig>('config')
+      .findOne({ key: 'updateTime' })
+    if (updateTime === null) {
+      throw new Error('Query updateTime but find null')
+    }
+    const documents = await db.collection<Tool>('tools').find().toArray()
+    console.log('Query tools successfully', documents)
+    return {
+      updateTime: updateTime.number,
+      tools: documents,
+    }
   })
 }
