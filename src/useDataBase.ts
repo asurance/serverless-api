@@ -10,8 +10,12 @@ export async function useDatabase<Data>(
   let client: MongoClient | null = null
   try {
     client = await MongoClient.connect(url)
+    const session = client.startSession()
     console.log('Connect successfully', url)
+    session.startTransaction()
     const data = await callback(client.db(name))
+    await session.commitTransaction()
+    await session.endSession()
     return {
       success: true,
       data,
