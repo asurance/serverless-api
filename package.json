@@ -4,9 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts && node dist/index.js",
-    "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts",
-    "build:all": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts --env BUILD_API=all"
+    "start": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts --env BUILD_API=index && node dist/index.js",
+    "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.json\" webpack --config config/webpack.config.ts"
   },
   "dependencies": {
     "@types/node": "^16.7.8",

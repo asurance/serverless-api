@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb'
 
 export type Tool = {
-  _id: ObjectId
+  _id: string
   name: string
   url: string
   description: string
-  tags: string[]
+  tags: string
 }
 
 export type Config = NumberConfig | StringConfig
@@ -22,4 +22,11 @@ export type StringConfig = {
   type: 'string'
   key: string
   string: string
+}
+
+export type UpdateData = {
+  updateTime: number
+  inserts: Tool[]
+  updates: (Partial<Tool> & { _id: string })[]
+  deletes: string[]
 }

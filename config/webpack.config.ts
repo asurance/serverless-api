@@ -20,7 +20,7 @@ function DeepSet(entry: EntryObject, root: string, cur: string) {
 }
 
 export default function (env: Record<string, unknown>): Configuration {
-  const buildApi = (env.BUILD_API as string) || ('index' as string)
+  const buildApi = (env.BUILD_API as string) || ('all' as string)
   console.log('current build api', buildApi)
   const entry: EntryObject = {}
   if (buildApi === 'index') {
